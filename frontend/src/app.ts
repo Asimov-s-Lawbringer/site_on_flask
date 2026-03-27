@@ -22,8 +22,8 @@ function drawProducts(products:Product[]) {
     container.innerHTML = allHtmlCards
 }
 
-function extraWindowOpener(id:string){
-    //console.log("Мы в функции открытия окна!")
+function extraWindowOpener(id:number){
+    //console.log("Я в функции открытия окна!")
     const extra_card = allProducts.find(current_card => current_card.id === id)
 
     //console.log('Проверка ресурсов:', {
@@ -55,7 +55,8 @@ function cardTapTracker(event: MouseEvent): void {
     const card = (event.target as HTMLElement).closest('.card') as HTMLElement;
     if (card === null) return;
 
-    const cardId = card.dataset.id
+    const strCardId = card.dataset.id
+    const cardId = Number(strCardId)
     
     //console.log("Id найден")
     if(cardId) {
@@ -69,24 +70,28 @@ function cardTapTracker(event: MouseEvent): void {
 
 async function heartOfApp(){
     //ожидаем остюда products через fetch но пока заглушк
+    //http://localhost:5000/api/products сюда стучаться
+    //const response = await fetch('http://localhost:5000/api/products');
+    //const data = await response.json(); 
+
     await new Promise(res=> setTimeout(res,500))
 
     allProducts = [
     {
-        id: "0",
+        id: 0,
         title: "Худи Жидкое",
         price: 5000,
         image: "/images/cat_hoodie.png",
         description: "Это худи поззволит вам чувствовать себя жидко"
     },
     {
-        id: "1",
+        id: 1,
         title: "Штаны Простофиля",
         price: 3500,
         image: "/images/pants.png",
         description: "Эти штаны сразу покажут всем кто здесь недотёпа"
     },
-    {   id: "2",
+    {   id: 2,
         title: "Шляпа Грибоед",
         price: 1500,
         image: "/images/fox_hat.png",

@@ -5,10 +5,10 @@ services:
     container_name: mysql_dev
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: my_shop_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_password
+      MYSQL_ROOT_PASSWORD: marshall_root
+      MYSQL_DATABASE: my_shop_db  
+      MYSQL_USER: root
+      MYSQL_PASSWORD: qwerty123456
     ports:
       - "127.0.0.1:3306:3306"
 

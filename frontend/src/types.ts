@@ -1,5 +1,5 @@
 export interface Product {
-    id:string;
+    id:number;
     title:string;
     price:number;
     image:string;
@@ -16,19 +16,19 @@ interface Users {
     phone_number:string;
     location: string;
 }
-
+//один ко многим Юзер->Заказы
+//один ко многим Заказ->Товары
 interface Orders {
     id:number;
     user_id:number;
+    product_id:number;
     created_at:string;
     status:string;
+    summ_cost: number;
 }
 
 interface Warehouse {
-    id:number;
-    order_id:number;
     product_id:number;
     quantity:number;
-    price_at_moment:number;
 }
 
