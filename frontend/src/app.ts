@@ -74,31 +74,17 @@ async function heartOfApp(){
     //const response = await fetch('http://localhost:5000/api/products');
     //const data = await response.json(); 
 
-    await new Promise(res=> setTimeout(res,500))
-
-    allProducts = [
-    {
-        id: 0,
-        title: "Худи Жидкое",
-        price: 5000,
-        image: "/images/cat_hoodie.png",
-        description: "Это худи поззволит вам чувствовать себя жидко"
-    },
-    {
-        id: 1,
-        title: "Штаны Простофиля",
-        price: 3500,
-        image: "/images/pants.png",
-        description: "Эти штаны сразу покажут всем кто здесь недотёпа"
-    },
-    {   id: 2,
-        title: "Шляпа Грибоед",
-        price: 1500,
-        image: "/images/fox_hat.png",
-        description: "Это мой гриб,я его я ЕМ! *звуки съедания гриба*"
+    try{
+      const response = await fetch('http://localhost:5000/api/products');
+      if (!response.ok){
+        throw new Error(`Ошибка:${response.status}`)
+      }
+    allProducts = (await response.json() as Product[]);
     }
-]
-
+    finally{
+      console.log(allProducts)
+    }
+     
     drawProducts(allProducts);
 
     if(!container){

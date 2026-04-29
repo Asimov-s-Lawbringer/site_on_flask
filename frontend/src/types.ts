@@ -5,7 +5,7 @@ export interface Product {
     image:string;
     description:string;
     category?:string;
-    discount?:number;
+    discount_price?:number;
 }
 
 interface Users {
@@ -16,19 +16,18 @@ interface Users {
     phone_number:string;
     location: string;
 }
-//один ко многим Юзер->Заказы
-//один ко многим Заказ->Товары
 interface Orders {
     id:number;
     user_id:number;
-    product_id:number;
     created_at:string;
-    status:string;
-    summ_cost: number;
+    status:"pending"|"paid"|"shipped"|"cancelled";
 }
 
-interface Warehouse {
+interface OrderItems {
+    id:number;
+    order_id:number;
     product_id:number;
     quantity:number;
+    price:number;
 }
 
