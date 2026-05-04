@@ -1,11 +1,11 @@
 export interface Product {
-    id:string;
+    id:number;
     title:string;
     price:number;
     image:string;
     description:string;
     category?:string;
-    discount?:number;
+    discount_price?:number;
 }
 
 interface Users {
@@ -16,19 +16,18 @@ interface Users {
     phone_number:string;
     location: string;
 }
-
 interface Orders {
     id:number;
     user_id:number;
     created_at:string;
-    status:string;
+    status:"pending"|"paid"|"shipped"|"cancelled";
 }
 
-interface Warehouse {
+interface OrderItems {
     id:number;
     order_id:number;
     product_id:number;
     quantity:number;
-    price_at_moment:number;
+    price:number;
 }
 
