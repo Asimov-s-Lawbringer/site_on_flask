@@ -6,6 +6,85 @@ const container = document.getElementById("container")
 const extra_menu = document.getElementById("extra_card_menu")
 const extra_content = document.getElementById("extra_content")
 
+
+document.getElementById("test-back")?.addEventListener("click", async () => {
+  try {
+    const response = await fetch("http://localhost:5000/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          name: "test",
+          lastname: "user",
+          middlename: "x",
+          phone_number: "999",
+          location: "test"
+        },
+        items: [
+          { product_id: 1, quantity: 1 }
+        ]
+      })
+    });
+
+    const data = await response.json();
+
+    console.log("RESULT:", data);
+    //alert("Заказ создан");
+
+  } catch (err) {
+    
+    console.error(err);
+  }
+});
+
+//document.querySelector(".buy_btn")
+//?.addEventListener("click", testOrderFlow);
+
+/* 
+async function testOrderFlow() {
+  try {
+    const response = await fetch("http://localhost:5000/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          name: "egor",
+          lastname: "egorov",
+          middlename: "test",
+          phone_number: "123456",
+          location: "Moscow"
+        },
+        items: [
+          { product_id: 1, quantity: 2 },
+          { product_id: 2, quantity: 1 }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    console.log("создано:", data);
+
+    alert(`создан заказ с id: ${data.order_id}`);
+
+  } catch (err) {
+    console.error(err);
+    alert("не удалось создать заказ");
+  }
+}
+
+*/
+
+
+
 function drawProducts(products:Product[]) {
     if (!container) return;
 
@@ -41,7 +120,7 @@ function extraWindowOpener(id:number){
                 <h1>${extra_card.title}</h1>
                 <p>${extra_card.description}</p>
                 <p class="extra_card_price">${extra_card.price} ₽</p>
-                <button class="buy_btn">Купить</button>
+                <button class="buy_btn" data-id="${extra_card.id}">Купить</button>
             </div>
         </div>
     `;
@@ -97,7 +176,26 @@ async function heartOfApp(){
         extra_menu?.classList.remove('is-active')
         document.body.style.overflow = 'auto';
     })
+  }
+
+/* 
+container?.addEventListener("click", (e) => {
+  const target = e.target as HTMLElement;
+
+  const button = target.closest(".buy_btn") as HTMLElement | null;
+
+  if (button) {
+    testOrderFlow();
+    const id = Number(target.dataset.id)
+    console.log(id)
+    console.log(container)
+  }
+});
+
 }
+
+*/
+
 
 
 heartOfApp();

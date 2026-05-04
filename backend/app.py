@@ -4,7 +4,8 @@ from flask_cors import CORS
 from db import data_base_connector
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173"]) 
+CORS(app)
+#CORS(app, origins=["http://localhost:5173"]) 
 
 def fetch_all_products():
     connection = data_base_connector()
@@ -59,13 +60,18 @@ def create_order_items(connection,order_id,items):
                 "SELECT price FROM Product WHERE id=%s",
                 (item["product_id"],)
             )
-            if product:
-                product = cursor.fetchone()
-                price = product["price"]
+
+            
+            product = cursor.fetchone()
+
+            price = product["price"]
                                     #тут ещё можно по идее join сделать для красоты...
-                sql = """INSERT INTO Order_Items (order_id,product_id,quantity,price) 
-                VALUES (%s, %s,%s, %s)"""
-                cursor.execute(sql,(order_id,item["product_id"],item["quantity"],price))
+            sql = """INSERT INTO Order_Items (order_id,product_id,quantity,price) 
+            VALUES (%s, %s,%s, %s)"""
+            cursor.execute(sql,(order_id,item["product_id"],item["quantity"],price))
+            if not product:
+                raise Exception("ошибка в создании чека")
+            
         #connection.commit()
     #finally:
         #connection.close()
@@ -112,11 +118,16 @@ def get_products():
     
 @app.route("/api/orders", methods=["POST"])
 def create_order_route():
-    data = request.json
+
+    try:
+        data = request.json
+        print("Отправляю:",data)
+        result = create_whole_transaction(data)
     
-    result = create_whole_transaction(data)
-    
-    return jsonify(result), 201
+        return jsonify(result), 201
+    except Exception as err:
+        print("Ошибка в руте заказа",err)
+        return jsonify({"error":str(err)}),500
 
 
 #@app.route('/api/products_info',methods=['GET'])
